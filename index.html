@@ -1,472 +1,436 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="ru">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.4">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #4689cc; -webkit-text-stroke: #4689cc}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #8cd3fe; -webkit-text-stroke: #8cd3fe}
-    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #c27e65; -webkit-text-stroke: #c27e65}
-    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #cacaca; -webkit-text-stroke: #cacaca}
-    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #71c083; -webkit-text-stroke: #71c083}
-    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #cacaca; -webkit-text-stroke: #cacaca; min-height: 16.0px}
-    p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #a7c598; -webkit-text-stroke: #a7c598}
-    p.p8 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #6d7378; -webkit-text-stroke: #6d7378}
-    span.s1 {font-kerning: none; background-color: #171818}
-    span.s2 {font-kerning: none; color: #8cd3fe; background-color: #171818; -webkit-text-stroke: 0px #8cd3fe}
-    span.s3 {font-kerning: none; color: #6d6d6d; background-color: #171818; -webkit-text-stroke: 0px #6d6d6d}
-    span.s4 {font-kerning: none; color: #cacaca; background-color: #171818; -webkit-text-stroke: 0px #cacaca}
-    span.s5 {font-kerning: none; color: #c27e65; background-color: #171818; -webkit-text-stroke: 0px #c27e65}
-    span.s6 {font-kerning: none; color: #4689cc; background-color: #171818; -webkit-text-stroke: 0px #4689cc}
-    span.s7 {font-kerning: none; color: #b76ff7; background-color: #171818; -webkit-text-stroke: 0px #b76ff7}
-    span.s8 {font-kerning: none; color: #d4d4d4; background-color: #171818; -webkit-text-stroke: 0px #d4d4d4}
-    span.s9 {font-kerning: none}
-    span.s10 {font-kerning: none; color: #a7c598; background-color: #171818; -webkit-text-stroke: 0px #a7c598}
-    span.s11 {font-kerning: none; color: #71c083; background-color: #171818; -webkit-text-stroke: 0px #71c083}
-    span.s12 {font-kerning: none; color: #36c0a0; background-color: #171818; -webkit-text-stroke: 0px #36c0a0}
-    span.s13 {font-kerning: none; color: #f67c30; background-color: #171818; -webkit-text-stroke: 0px #f67c30}
-    span.s14 {font-kerning: none; color: #a34f83; background-color: #171818; -webkit-text-stroke: 0px #a34f83}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Weather AI Pro - Дарья</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --bg-main: #F3F8FF;
+            --primary: #628EFF;
+            --grad: linear-gradient(145deg, #628EFF 0%, #8740FF 100%);
+            --shadow-soft: 10px 10px 20px rgba(163, 177, 198, 0.2);
+            --inner-shadow: inset 4px 4px 10px rgba(0,0,0,0.05), inset -4px -4px 10px #ffffff;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            background-color: var(--bg-main);
+            color: #313945;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 100vh;
+        }
+
+        #weather-canvas {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .main-weather-card {
+            background: var(--grad);
+            border-radius: 45px;
+            box-shadow: 0 25px 50px rgba(98, 142, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+            color: white;
+            padding: 40px 30px;
+        }
+
+        .main-weather-card::after {
+            content: '';
+            position: absolute;
+            top: -20%; right: -15%;
+            width: 250px; height: 250px;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 75%);
+            border-radius: 50%;
+        }
+
+        /* Навигация (Исправлено) */
+        .nav-pills {
+            background: #E6EEF8;
+            border-radius: 30px;
+            padding: 5px;
+            display: flex;
+            box-shadow: var(--inner-shadow);
+            width: 100%;
+            align-items: center;
+        }
+
+        .nav-pills button {
+            flex: 1;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 800;
+            border-radius: 25px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #7d8bb2;
+            border: none;
+            outline: none;
+            background: transparent;
+        }
+
+        .nav-pills button.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        /* Почасовой список (Исправлено) */
+        .hourly-scroll-container {
+            margin: 0 -28px; /* Расширяем до краев экрана */
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .hourly-scroll-container::-webkit-scrollbar { display: none; }
+
+        #hourly-list {
+            padding: 30px 28px; /* Огромный отступ сверху (для взлета) и по бокам (слева больше не режет) */
+            display: inline-flex;
+            gap: 16px;
+        }
+
+        .hour-pill {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 25px;
+            min-width: 75px;
+            height: 135px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 10px;
+            box-shadow: 0 4px 12px rgba(163, 177, 198, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s, box-shadow 0.3s;
+            flex-shrink: 0;
+        }
+
+        .hour-pill.active {
+            background: var(--grad);
+            color: white;
+            transform: translateY(-12px); /* Взлетает выше, места теперь много */
+            box-shadow: 0 15px 25px rgba(98, 142, 255, 0.3);
+            border: none;
+        }
+
+        .ai-glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(15px);
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 15px 15px 35px rgba(163, 177, 198, 0.2);
+        }
+
+        .ai-text {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #4a5568;
+        }
+
+        .ai-text b {
+            color: var(--primary);
+            display: block;
+            margin-top: 15px;
+            font-size: 12px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .pt-safe { padding-top: env(safe-area-inset-top); }
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+
+        .dots span {
+            width: 6px; height: 6px; background: var(--primary);
+            border-radius: 50%; display: inline-block;
+            animation: dot-bounce 1.4s infinite ease-in-out both;
+        }
+        .dots span:nth-child(1) { animation-delay: -0.32s; }
+        .dots span:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes dot-bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+    </style>
 </head>
-<body>
-<p class="p1"><span class="s1">&lt;!DOCTYPE</span><span class="s2"> html</span><span class="s1">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;</span><span class="s1">html</span><span class="s4"> </span><span class="s2">lang</span><span class="s3">=</span><span class="s5">"ru"</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;</span><span class="s1">head</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">meta</span><span class="s4"> </span><span class="s1">charset</span><span class="s3">=</span><span class="s5">"UTF-8"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">meta</span><span class="s4"> </span><span class="s2">name</span><span class="s3">=</span><span class="s1">"viewport"</span><span class="s4"> </span><span class="s2">content</span><span class="s3">=</span><span class="s1">"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">title</span><span class="s3">&gt;</span><span class="s1">Weather AI Pro - Дарья</span><span class="s3">&lt;/</span><span class="s6">title</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">script</span><span class="s4"> </span><span class="s2">src</span><span class="s3">=</span><span class="s1">"https://cdn.tailwindcss.com"</span><span class="s3">&gt;&lt;/</span><span class="s6">script</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">link</span><span class="s4"> </span><span class="s2">rel</span><span class="s3">=</span><span class="s1">"stylesheet"</span><span class="s4"> </span><span class="s2">href</span><span class="s3">=</span><span class="s1">"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s1">style</span><span class="s3">&gt;</span></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s7">@import</span><span class="s4"> </span><span class="s5">url</span><span class="s8">(</span><span class="s1">'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap'</span><span class="s8">);</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s6">:root</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">--bg-main:</span><span class="s1"> #F3F8FF</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">--primary:</span><span class="s1"> #628EFF</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">--grad:</span><span class="s1"> </span><span class="s5">linear-gradient(</span><span class="s10">145deg</span><span class="s8">,</span><span class="s1"> #628EFF </span><span class="s10">0%</span><span class="s8">,</span><span class="s1"> #8740FF </span><span class="s10">100%</span><span class="s5">)</span><span class="s8">;</span></p>
-<p class="p7"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s2">--shadow-soft:</span><span class="s4"> </span><span class="s1">10px</span><span class="s4"> </span><span class="s1">10px</span><span class="s4"> </span><span class="s1">20px</span><span class="s4"> </span><span class="s5">rgba(</span><span class="s1">163</span><span class="s8">,</span><span class="s4"> </span><span class="s1">177</span><span class="s8">,</span><span class="s4"> </span><span class="s1">198</span><span class="s8">,</span><span class="s4"> </span><span class="s1">0.2</span><span class="s5">)</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">--inner-shadow:</span><span class="s1"> </span><span class="s5">inset</span><span class="s1"> </span><span class="s10">4px</span><span class="s1"> </span><span class="s10">4px</span><span class="s1"> </span><span class="s10">10px</span><span class="s1"> </span><span class="s5">rgba(</span><span class="s10">0</span><span class="s8">,</span><span class="s10">0</span><span class="s8">,</span><span class="s10">0</span><span class="s8">,</span><span class="s10">0.05</span><span class="s5">)</span><span class="s8">,</span><span class="s1"> </span><span class="s5">inset</span><span class="s1"> </span><span class="s10">-4px</span><span class="s1"> </span><span class="s10">-4px</span><span class="s1"> </span><span class="s10">10px</span><span class="s1"> #ffffff</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s6">body</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s2">font-family:</span><span class="s4"> </span><span class="s1">'Plus Jakarta Sans'</span><span class="s8">,</span><span class="s4"> </span><span class="s5">sans-serif</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">margin:</span><span class="s1"> </span><span class="s10">0</span><span class="s8">;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">background-color:</span><span class="s4"> </span><span class="s5">var(--bg-main)</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">color:</span><span class="s1"> #313945</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">overflow-x:</span><span class="s1"> </span><span class="s5">hidden</span><span class="s8">;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">-webkit-tap-highlight-color:</span><span class="s4"> </span><span class="s5">transparent</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">min-height:</span><span class="s1"> </span><span class="s10">100vh</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">#weather-canvas</span><span class="s4"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">position:</span><span class="s1"> </span><span class="s5">fixed</span><span class="s8">;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">top:</span><span class="s4"> </span><span class="s10">0</span><span class="s8">;</span><span class="s4"> </span><span class="s1">left:</span><span class="s4"> </span><span class="s10">0</span><span class="s8">;</span><span class="s4"> </span><span class="s1">width:</span><span class="s4"> </span><span class="s10">100%</span><span class="s8">;</span><span class="s4"> </span><span class="s1">height:</span><span class="s4"> </span><span class="s10">100%</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">z-index:</span><span class="s1"> </span><span class="s10">-1</span><span class="s8">;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">pointer-events:</span><span class="s4"> </span><span class="s5">none</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">.main-weather-card</span><span class="s4"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">background:</span><span class="s1"> </span><span class="s5">var(--grad)</span><span class="s8">;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">border-radius:</span><span class="s4"> </span><span class="s10">45px</span><span class="s8">;</span></p>
-<p class="p7"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s2">box-shadow:</span><span class="s4"> </span><span class="s1">0</span><span class="s4"> </span><span class="s1">25px</span><span class="s4"> </span><span class="s1">50px</span><span class="s4"> </span><span class="s5">rgba(</span><span class="s1">98</span><span class="s8">,</span><span class="s4"> </span><span class="s1">142</span><span class="s8">,</span><span class="s4"> </span><span class="s1">255</span><span class="s8">,</span><span class="s4"> </span><span class="s1">0.3</span><span class="s5">)</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">position:</span><span class="s1"> </span><span class="s5">relative</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">overflow:</span><span class="s1"> </span><span class="s5">hidden</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">color:</span><span class="s1"> </span><span class="s5">white</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">padding:</span><span class="s1"> </span><span class="s10">40px</span><span class="s1"> </span><span class="s10">30px</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">.main-weather-card::after</span><span class="s4"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">content:</span><span class="s1"> </span><span class="s11">''</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">position:</span><span class="s1"> </span><span class="s5">absolute</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">top:</span><span class="s1"> </span><span class="s10">-20%</span><span class="s8">;</span><span class="s1"> </span><span class="s2">right:</span><span class="s1"> </span><span class="s10">-15%</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">width:</span><span class="s1"> </span><span class="s10">250px</span><span class="s8">;</span><span class="s1"> </span><span class="s2">height:</span><span class="s1"> </span><span class="s10">250px</span><span class="s8">;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s2">background:</span><span class="s4"> </span><span class="s1">radial-gradient(circle</span><span class="s8">,</span><span class="s4"> </span><span class="s1">rgba(</span><span class="s10">255</span><span class="s8">,</span><span class="s10">255</span><span class="s8">,</span><span class="s10">255</span><span class="s8">,</span><span class="s10">0.2</span><span class="s1">)</span><span class="s4"> </span><span class="s10">0%</span><span class="s8">,</span><span class="s4"> </span><span class="s1">transparent</span><span class="s4"> </span><span class="s10">75%</span><span class="s1">)</span><span class="s8">;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">border-radius:</span><span class="s4"> </span><span class="s10">50%</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p8"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">/* Навигация (Исправлено) */</span></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">.nav-pills</span><span class="s4"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">background:</span><span class="s1"> #E6EEF8</span><span class="s8">;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">border-radius:</span><span class="s4"> </span><span class="s10">30px</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">padding:</span><span class="s1"> </span><span class="s10">5px</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">display:</span><span class="s1"> </span><span class="s5">flex</span><span class="s8">;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s2">box-shadow:</span><span class="s4"> </span><span class="s1">var(--inner-shadow)</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">width:</span><span class="s1"> </span><span class="s10">100%</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">align-items:</span><span class="s1"> </span><span class="s5">center</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">.nav-pills</span><span class="s4"> </span><span class="s1">button</span><span class="s4"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">flex:</span><span class="s1"> </span><span class="s10">1</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">height:</span><span class="s1"> </span><span class="s10">44px</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">display:</span><span class="s1"> </span><span class="s5">flex</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">align-items:</span><span class="s1"> </span><span class="s5">center</span><span class="s8">;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">justify-content:</span><span class="s4"> </span><span class="s5">center</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">font-size:</span><span class="s1"> </span><span class="s10">14px</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">font-weight:</span><span class="s1"> </span><span class="s10">800</span><span class="s8">;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">border-radius:</span><span class="s4"> </span><span class="s10">25px</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">transition:</span><span class="s1"> </span><span class="s5">all</span><span class="s1"> </span><span class="s10">0.3s</span><span class="s1"> </span><span class="s5">cubic-bezier(</span><span class="s10">0.4</span><span class="s8">,</span><span class="s1"> </span><span class="s10">0</span><span class="s8">,</span><span class="s1"> </span><span class="s10">0.2</span><span class="s8">,</span><span class="s1"> </span><span class="s10">1</span><span class="s5">)</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">color:</span><span class="s1"> #7d8bb2</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">border:</span><span class="s1"> </span><span class="s5">none</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">outline:</span><span class="s1"> </span><span class="s5">none</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">background:</span><span class="s1"> </span><span class="s5">transparent</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">.nav-pills</span><span class="s4"> </span><span class="s1">button.active</span><span class="s4"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">background:</span><span class="s1"> </span><span class="s5">white</span><span class="s8">;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s2">color:</span><span class="s4"> </span><span class="s1">var(--primary)</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">box-shadow:</span><span class="s1"> </span><span class="s10">0</span><span class="s1"> </span><span class="s10">4px</span><span class="s1"> </span><span class="s10">15px</span><span class="s1"> </span><span class="s5">rgba(</span><span class="s10">0</span><span class="s8">,</span><span class="s10">0</span><span class="s8">,</span><span class="s10">0</span><span class="s8">,</span><span class="s10">0.06</span><span class="s5">)</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p8"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">/* Почасовой список (Исправлено) */</span></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">.hourly-scroll-container</span><span class="s4"> </span><span class="s8">{</span></p>
-<p class="p8"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s2">margin:</span><span class="s4"> </span><span class="s10">0</span><span class="s4"> </span><span class="s10">-28px</span><span class="s8">;</span><span class="s4"> </span><span class="s1">/* Расширяем до краев экрана */</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">overflow-x:</span><span class="s1"> </span><span class="s5">auto</span><span class="s8">;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">-webkit-overflow-scrolling:</span><span class="s4"> </span><span class="s5">touch</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">.hourly-scroll-container::-webkit-scrollbar</span><span class="s4"> </span><span class="s8">{</span><span class="s4"> </span><span class="s2">display:</span><span class="s4"> </span><span class="s5">none</span><span class="s8">;</span><span class="s4"> </span><span class="s8">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">#hourly-list</span><span class="s4"> </span><span class="s8">{</span></p>
-<p class="p8"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s2">padding:</span><span class="s4"> </span><span class="s10">30px</span><span class="s4"> </span><span class="s10">28px</span><span class="s8">;</span><span class="s4"> </span><span class="s1">/* Огромный отступ сверху (для взлета) и по бокам (слева больше не режет) */</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">display:</span><span class="s1"> </span><span class="s5">inline-flex</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">gap:</span><span class="s1"> </span><span class="s10">16px</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">.hour-pill</span><span class="s4"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">background:</span><span class="s1"> </span><span class="s5">rgba(</span><span class="s10">255</span><span class="s8">,</span><span class="s1"> </span><span class="s10">255</span><span class="s8">,</span><span class="s1"> </span><span class="s10">255</span><span class="s8">,</span><span class="s1"> </span><span class="s10">0.9</span><span class="s5">)</span><span class="s8">;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">border-radius:</span><span class="s4"> </span><span class="s10">25px</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">min-width:</span><span class="s1"> </span><span class="s10">75px</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">height:</span><span class="s1"> </span><span class="s10">135px</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">display:</span><span class="s1"> </span><span class="s5">flex</span><span class="s8">;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">flex-direction:</span><span class="s4"> </span><span class="s5">column</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">align-items:</span><span class="s1"> </span><span class="s5">center</span><span class="s8">;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">justify-content:</span><span class="s4"> </span><span class="s5">space-between</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">padding:</span><span class="s1"> </span><span class="s10">20px</span><span class="s1"> </span><span class="s10">10px</span><span class="s8">;</span></p>
-<p class="p7"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s2">box-shadow:</span><span class="s4"> </span><span class="s1">0</span><span class="s4"> </span><span class="s1">4px</span><span class="s4"> </span><span class="s1">12px</span><span class="s4"> </span><span class="s5">rgba(</span><span class="s1">163</span><span class="s8">,</span><span class="s4"> </span><span class="s1">177</span><span class="s8">,</span><span class="s4"> </span><span class="s1">198</span><span class="s8">,</span><span class="s4"> </span><span class="s1">0.15</span><span class="s5">)</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">border:</span><span class="s1"> </span><span class="s10">1px</span><span class="s1"> </span><span class="s5">solid</span><span class="s1"> </span><span class="s5">rgba(</span><span class="s10">255</span><span class="s8">,</span><span class="s1"> </span><span class="s10">255</span><span class="s8">,</span><span class="s1"> </span><span class="s10">255</span><span class="s8">,</span><span class="s1"> </span><span class="s10">0.8</span><span class="s5">)</span><span class="s8">;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s2">transition:</span><span class="s4"> </span><span class="s1">transform</span><span class="s4"> </span><span class="s10">0.4s</span><span class="s4"> </span><span class="s1">cubic-bezier(</span><span class="s10">0.34</span><span class="s8">,</span><span class="s4"> </span><span class="s10">1.56</span><span class="s8">,</span><span class="s4"> </span><span class="s10">0.64</span><span class="s8">,</span><span class="s4"> </span><span class="s10">1</span><span class="s1">)</span><span class="s8">,</span><span class="s4"> </span><span class="s1">background</span><span class="s4"> </span><span class="s10">0.3s</span><span class="s8">,</span><span class="s4"> </span><span class="s1">box-shadow</span><span class="s4"> </span><span class="s10">0.3s</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">flex-shrink:</span><span class="s1"> </span><span class="s10">0</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">.hour-pill.active</span><span class="s4"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">background:</span><span class="s1"> </span><span class="s5">var(--grad)</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">color:</span><span class="s1"> </span><span class="s5">white</span><span class="s8">;</span></p>
-<p class="p8"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s2">transform:</span><span class="s4"> </span><span class="s5">translateY(</span><span class="s10">-12px</span><span class="s5">)</span><span class="s8">;</span><span class="s4"> </span><span class="s1">/* Взлетает выше, места теперь много */</span></p>
-<p class="p7"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s2">box-shadow:</span><span class="s4"> </span><span class="s1">0</span><span class="s4"> </span><span class="s1">15px</span><span class="s4"> </span><span class="s1">25px</span><span class="s4"> </span><span class="s5">rgba(</span><span class="s1">98</span><span class="s8">,</span><span class="s4"> </span><span class="s1">142</span><span class="s8">,</span><span class="s4"> </span><span class="s1">255</span><span class="s8">,</span><span class="s4"> </span><span class="s1">0.3</span><span class="s5">)</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">border:</span><span class="s1"> </span><span class="s5">none</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">.ai-glass-card</span><span class="s4"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">background:</span><span class="s1"> </span><span class="s5">rgba(</span><span class="s10">255</span><span class="s8">,</span><span class="s1"> </span><span class="s10">255</span><span class="s8">,</span><span class="s1"> </span><span class="s10">255</span><span class="s8">,</span><span class="s1"> </span><span class="s10">0.75</span><span class="s5">)</span><span class="s8">;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">backdrop-filter:</span><span class="s4"> </span><span class="s5">blur(</span><span class="s10">15px</span><span class="s5">)</span><span class="s8">;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">border-radius:</span><span class="s4"> </span><span class="s10">40px</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">border:</span><span class="s1"> </span><span class="s10">1px</span><span class="s1"> </span><span class="s5">solid</span><span class="s1"> </span><span class="s5">rgba(</span><span class="s10">255</span><span class="s8">,</span><span class="s1"> </span><span class="s10">255</span><span class="s8">,</span><span class="s1"> </span><span class="s10">255</span><span class="s8">,</span><span class="s1"> </span><span class="s10">0.8</span><span class="s5">)</span><span class="s8">;</span></p>
-<p class="p7"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s2">box-shadow:</span><span class="s4"> </span><span class="s1">15px</span><span class="s4"> </span><span class="s1">15px</span><span class="s4"> </span><span class="s1">35px</span><span class="s4"> </span><span class="s5">rgba(</span><span class="s1">163</span><span class="s8">,</span><span class="s4"> </span><span class="s1">177</span><span class="s8">,</span><span class="s4"> </span><span class="s1">198</span><span class="s8">,</span><span class="s4"> </span><span class="s1">0.2</span><span class="s5">)</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s6">.ai-text</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">font-size:</span><span class="s1"> </span><span class="s10">14px</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">line-height:</span><span class="s1"> </span><span class="s10">1.8</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">color:</span><span class="s1"> #4a5568</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s6">.ai-text</span><span class="s1"> </span><span class="s6">b</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s2">color:</span><span class="s4"> </span><span class="s1">var(--primary)</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">display:</span><span class="s1"> </span><span class="s5">block</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">margin-top:</span><span class="s1"> </span><span class="s10">15px</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">font-size:</span><span class="s1"> </span><span class="s10">12px</span><span class="s8">;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">letter-spacing:</span><span class="s4"> </span><span class="s10">0.1em</span><span class="s8">;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">text-transform:</span><span class="s4"> </span><span class="s5">uppercase</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s6">.pt-safe</span><span class="s4"> </span><span class="s8">{</span><span class="s4"> </span><span class="s2">padding-top:</span><span class="s4"> </span><span class="s1">env(safe-area-inset-top)</span><span class="s8">;</span><span class="s4"> </span><span class="s8">}</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s6">.pb-safe</span><span class="s4"> </span><span class="s8">{</span><span class="s4"> </span><span class="s2">padding-bottom:</span><span class="s4"> </span><span class="s1">env(safe-area-inset-bottom)</span><span class="s8">;</span><span class="s4"> </span><span class="s8">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s6">.dots</span><span class="s1"> </span><span class="s6">span</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">width:</span><span class="s4"> </span><span class="s10">6px</span><span class="s8">;</span><span class="s4"> </span><span class="s1">height:</span><span class="s4"> </span><span class="s10">6px</span><span class="s8">;</span><span class="s4"> </span><span class="s1">background:</span><span class="s4"> </span><span class="s5">var(--primary)</span><span class="s8">;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">border-radius:</span><span class="s4"> </span><span class="s10">50%</span><span class="s8">;</span><span class="s4"> </span><span class="s1">display:</span><span class="s4"> </span><span class="s5">inline-block</span><span class="s8">;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s2">animation:</span><span class="s4"> </span><span class="s1">dot-bounce</span><span class="s4"> </span><span class="s10">1.4s</span><span class="s4"> </span><span class="s1">infinite</span><span class="s4"> </span><span class="s1">ease-in-out</span><span class="s4"> </span><span class="s1">both</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">.dots</span><span class="s4"> </span><span class="s1">span:nth-child</span><span class="s4">(1) </span><span class="s8">{</span><span class="s4"> </span><span class="s2">animation-delay:</span><span class="s4"> </span><span class="s10">-0.32s</span><span class="s8">;</span><span class="s4"> </span><span class="s8">}</span></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">.dots</span><span class="s4"> </span><span class="s1">span:nth-child</span><span class="s4">(2) </span><span class="s8">{</span><span class="s4"> </span><span class="s2">animation-delay:</span><span class="s4"> </span><span class="s10">-0.16s</span><span class="s8">;</span><span class="s4"> </span><span class="s8">}</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s7">@keyframes</span><span class="s4"> </span><span class="s1">dot-bounce</span><span class="s4"> </span><span class="s8">{</span><span class="s4"> </span><span class="s10">0%</span><span class="s8">,</span><span class="s4"> </span><span class="s10">80%</span><span class="s8">,</span><span class="s4"> </span><span class="s10">100%</span><span class="s4"> </span><span class="s8">{</span><span class="s4"> </span><span class="s2">transform:</span><span class="s4"> </span><span class="s1">scale(</span><span class="s10">0</span><span class="s1">)</span><span class="s8">;</span><span class="s4"> </span><span class="s8">}</span><span class="s4"> </span><span class="s10">40%</span><span class="s4"> </span><span class="s8">{</span><span class="s4"> </span><span class="s2">transform:</span><span class="s4"> </span><span class="s1">scale(</span><span class="s10">1</span><span class="s1">)</span><span class="s8">;</span><span class="s4"> </span><span class="s8">}</span><span class="s4"> </span><span class="s8">}</span></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s1">style</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">head</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s3">&lt;</span><span class="s6">body</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"pt-safe"</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">canvas</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"weather-canvas"</span><span class="s3">&gt;&lt;/</span><span class="s6">canvas</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"max-w-md mx-auto px-7 pb-12 relative z-10"</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"flex flex-col items-center mt-6 mb-8"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"flex items-center gap-2 mb-1"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fas fa-location-dot text-[#628EFF] text-xl"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">span</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"city-label"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-2xl font-extrabold tracking-tight text-[#313945]"</span><span class="s3">&gt;</span><span class="s4">Москва</span><span class="s3">&lt;/</span><span class="s6">span</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">span</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"date-label"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-[11px] font-bold text-gray-400 uppercase tracking-widest"</span><span class="s3">&gt;</span><span class="s4">Сегодня</span><span class="s3">&lt;/</span><span class="s6">span</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"mb-10"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"nav-pills"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">button</span><span class="s4"> </span><span class="s2">onclick</span><span class="s3">=</span><span class="s1">"changeLoc('moscow')"</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"btn-moscow"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"active"</span><span class="s3">&gt;</span><span class="s4">Москва</span><span class="s3">&lt;/</span><span class="s6">button</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">button</span><span class="s4"> </span><span class="s2">onclick</span><span class="s3">=</span><span class="s1">"changeLoc('adler')"</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"btn-adler"</span><span class="s3">&gt;</span><span class="s4">Адлер</span><span class="s3">&lt;/</span><span class="s6">button</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">button</span><span class="s4"> </span><span class="s2">onclick</span><span class="s3">=</span><span class="s1">"getGPS()"</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"btn-gps"</span><span class="s3">&gt;&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fas fa-location-arrow"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;&lt;/</span><span class="s6">button</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p8"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">&lt;!-- ГЛАВНАЯ КАРТОЧКА --&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"main-weather-card flex flex-col items-center mb-10 relative"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"card-loader"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"hidden absolute inset-0 bg-white/10 backdrop-blur-md z-50 flex items-center justify-center rounded-[45px]"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fas fa-circle-notch fa-spin text-white text-3xl"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"flex w-full justify-between items-start mb-4 px-2"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"condition-label"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-white/80 font-bold uppercase tracking-[0.2em] text-sm"</span><span class="s3">&gt;</span><span class="s4">...</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"main-icon"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fas fa-sun text-6xl text-yellow-300 drop-shadow-xl transition-all duration-700"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"temp-val"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-[100px] font-extrabold leading-none mb-6 tracking-tighter"</span><span class="s4"> </span><span class="s2">style</span><span class="s3">=</span><span class="s1">"text-shadow: 0 10px 20px rgba(0,0,0,0.1)"</span><span class="s3">&gt;</span><span class="s4">--°</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"flex w-full justify-around mt-6 pt-8 border-t border-white/20"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"flex flex-col items-center"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fas fa-umbrella text-white/50 text-[10px] mb-2"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s6">span</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"rain-val"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-[14px] font-black tracking-tighter"</span><span class="s3">&gt;</span><span class="s4">--%</span><span class="s3">&lt;/</span><span class="s6">span</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s6">span</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-[9px] font-bold uppercase opacity-60"</span><span class="s3">&gt;</span><span class="s4">Осадки</span><span class="s3">&lt;/</span><span class="s6">span</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"flex flex-col items-center border-x border-white/20 px-8"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fas fa-droplet text-white/50 text-[10px] mb-2"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s6">span</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"hum-val"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-[14px] font-black tracking-tighter"</span><span class="s3">&gt;</span><span class="s4">--%</span><span class="s3">&lt;/</span><span class="s6">span</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s6">span</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-[9px] font-bold uppercase opacity-60"</span><span class="s3">&gt;</span><span class="s4">Влажн.</span><span class="s3">&lt;/</span><span class="s6">span</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"flex flex-col items-center"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fas fa-wind text-white/50 text-[10px] mb-2"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s6">span</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"wind-val"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-[14px] font-black tracking-tighter"</span><span class="s3">&gt;</span><span class="s4">-- м/с</span><span class="s3">&lt;/</span><span class="s6">span</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s6">span</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-[9px] font-bold uppercase opacity-60"</span><span class="s3">&gt;</span><span class="s4">Ветер</span><span class="s3">&lt;/</span><span class="s6">span</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p8"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">&lt;!-- Почасовой прогноз --&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"mb-12"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"flex justify-between items-center mb-2 px-1"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">span</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-[16px] font-extrabold text-[#313945]"</span><span class="s3">&gt;</span><span class="s4">Сегодня</span><span class="s3">&lt;/</span><span class="s6">span</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">a</span><span class="s4"> </span><span class="s2">href</span><span class="s3">=</span><span class="s1">"https://yandex.ru/pogoda/ru"</span><span class="s4"> </span><span class="s2">target</span><span class="s3">=</span><span class="s1">"_blank"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-[11px] font-bold text-[#628EFF] uppercase tracking-widest flex items-center gap-1 hover:opacity-70 active:scale-95 transition-all"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span>ПРОГНОЗ ЯНДЕКС </span><span class="s3">&lt;</span><span class="s6">i</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"fas fa-chevron-right text-[8px]"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;/</span><span class="s6">a</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"hourly-scroll-container"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s1"> </span><span class="s2">id</span><span class="s3">=</span><span class="s5">"hourly-list"</span><span class="s3">&gt;</span></p>
-<p class="p8"><span class="s4"><span class="Apple-converted-space">                    </span></span><span class="s1">&lt;!-- Плитки генерируются в JS --&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p8"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">&lt;!-- БЛОК ДАРЬИ --&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"ai-glass-card p-8 mb-8 relative overflow-hidden transition-all hover:scale-[1.01]"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"absolute top-[-10px] right-[-10px] opacity-5 pointer-events-none"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fas fa-baby-carriage text-8xl"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"flex items-center gap-4 mb-6"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"w-12 h-12 bg-gradient-to-br from-[#628EFF] to-[#8740FF] rounded-2xl flex items-center justify-center shadow-xl"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fas fa-wand-magic-sparkles text-white text-[18px]"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"flex flex-col"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s6">span</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-[10px] font-black uppercase tracking-[0.2em] text-[#628EFF]"</span><span class="s3">&gt;</span><span class="s4">Для Дарьи (</span><span class="s3">&lt;</span><span class="s6">span</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"age-label"</span><span class="s3">&gt;</span><span class="s4">...</span><span class="s3">&lt;/</span><span class="s6">span</span><span class="s3">&gt;</span><span class="s4">)</span><span class="s3">&lt;/</span><span class="s6">span</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s6">span</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"text-[15px] font-extrabold text-[#313945]"</span><span class="s3">&gt;</span><span class="s1">Детальный разбор гардероба</span><span class="s3">&lt;/</span><span class="s6">span</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"ai-advice"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"ai-text font-bold"</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s1">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"dots py-4"</span><span class="s3">&gt;&lt;</span><span class="s1">span</span><span class="s3">&gt;&lt;/</span><span class="s1">span</span><span class="s3">&gt;&lt;</span><span class="s1">span</span><span class="s3">&gt;&lt;/</span><span class="s1">span</span><span class="s3">&gt;&lt;</span><span class="s1">span</span><span class="s3">&gt;&lt;/</span><span class="s1">span</span><span class="s3">&gt;&lt;/</span><span class="s1">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"text-xs text-gray-400 mt-2"</span><span class="s3">&gt;</span><span class="s1">Анализирую погоду для малышки...</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">button</span><span class="s4"> </span><span class="s2">onclick</span><span class="s3">=</span><span class="s1">"toggleChat(true)"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"mt-8 w-full py-5 bg-white hover:bg-gray-50 transition-all rounded-[25px] text-[11px] font-black uppercase tracking-widest text-[#628EFF] border border-gray-100 shadow-sm flex items-center justify-center gap-2"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span>СПРОСИТЬ АССИСТЕНТА </span><span class="s3">&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fas fa-arrow-right text-[9px] opacity-40"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;/</span><span class="s6">button</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p8"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s1">&lt;!-- ЧАТ МОДАЛКА --&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"chat-modal"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fixed inset-0 bg-black/40 backdrop-blur-2xl z-50 hidden flex-col justify-end"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"bg-white w-full rounded-t-[50px] p-8 pb-safe shadow-2xl transition-all"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"w-16 h-1.5 bg-gray-200 rounded-full mx-auto mb-10"</span><span class="s3">&gt;&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"chat-history"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"max-h-[40vh] overflow-y-auto mb-8 space-y-6 px-1 text-sm font-bold text-[#313945]"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"bg-indigo-50 p-6 rounded-[35px] rounded-tl-none shadow-sm leading-relaxed"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span>Привет! Я помогу подобрать гардероб для Дарьи. Ей сейчас </span><span class="s3">&lt;</span><span class="s6">span</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"d-age"</span><span class="s3">&gt;</span><span class="s1">...</span><span class="s3">&lt;/</span><span class="s6">span</span><span class="s3">&gt;</span><span class="s1">. Что вас интересует?</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"flex gap-3 items-center"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">input</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"chat-input"</span><span class="s4"> </span><span class="s2">type</span><span class="s3">=</span><span class="s1">"text"</span><span class="s4"> </span><span class="s2">placeholder</span><span class="s3">=</span><span class="s1">"Ваш вопрос..."</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"flex-1 bg-gray-100 rounded-[25px] px-7 py-5 outline-none font-bold text-[15px]"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">button</span><span class="s4"> </span><span class="s2">onclick</span><span class="s3">=</span><span class="s1">"sendChat()"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"bg-[#628EFF] text-white w-14 h-14 rounded-2xl flex items-center justify-center shadow-xl shadow-indigo-100"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fas fa-paper-plane text-lg"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;/</span><span class="s6">button</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">button</span><span class="s4"> </span><span class="s2">onclick</span><span class="s3">=</span><span class="s1">"toggleChat(false)"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"mt-8 w-full text-center text-gray-400 font-bold text-[11px] uppercase tracking-widest"</span><span class="s3">&gt;</span><span class="s4">Закрыть</span><span class="s3">&lt;/</span><span class="s6">button</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s1">script</span><span class="s3">&gt;</span></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s7">const</span><span class="s4"> </span><span class="s12">GROQ_KEY</span><span class="s4"> </span><span class="s8">=</span><span class="s4"> </span><span class="s1">"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"</span><span class="s8">;</span></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s7">const</span><span class="s4"> </span><span class="s12">BIRTH</span><span class="s4"> </span><span class="s8">=</span><span class="s4"> </span><span class="s1">"2024-10-15"</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">const</span><span class="s1"> </span><span class="s12">CITIES</span><span class="s1"> </span><span class="s8">=</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>moscow</span><span class="s8">:</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> name</span><span class="s8">:</span><span class="s1"> </span><span class="s11">'Москва'</span><span class="s8">,</span><span class="s1"> lat</span><span class="s8">:</span><span class="s1"> </span><span class="s13">55.75</span><span class="s8">,</span><span class="s1"> lon</span><span class="s8">:</span><span class="s1"> </span><span class="s13">37.61</span><span class="s1"> </span><span class="s8">},</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>adler</span><span class="s8">:</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> name</span><span class="s8">:</span><span class="s1"> </span><span class="s11">'Адлер'</span><span class="s8">,</span><span class="s1"> lat</span><span class="s8">:</span><span class="s1"> </span><span class="s13">43.43</span><span class="s8">,</span><span class="s1"> lon</span><span class="s8">:</span><span class="s1"> </span><span class="s13">39.91</span><span class="s1"> </span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">};</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">let</span><span class="s1"> currentAge </span><span class="s8">=</span><span class="s1"> </span><span class="s11">""</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">let</span><span class="s1"> weatherData </span><span class="s8">=</span><span class="s1"> </span><span class="s7">null</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">let</span><span class="s1"> canvas</span><span class="s8">,</span><span class="s1"> ctx</span><span class="s8">,</span><span class="s1"> clouds </span><span class="s8">=</span><span class="s1"> </span><span class="s8">[];</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">function</span><span class="s1"> initClouds</span><span class="s8">()</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>canvas </span><span class="s8">=</span><span class="s1"> document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s11">'weather-canvas'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>ctx </span><span class="s8">=</span><span class="s1"> canvas</span><span class="s8">.</span><span class="s1">getContext</span><span class="s8">(</span><span class="s11">'2d'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>resize</span><span class="s8">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>window</span><span class="s8">.</span><span class="s1">addEventListener</span><span class="s8">(</span><span class="s11">'resize'</span><span class="s8">,</span><span class="s1"> resize</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">for</span><span class="s8">(</span><span class="s7">let</span><span class="s1"> i</span><span class="s8">=</span><span class="s13">0</span><span class="s8">;</span><span class="s1"> i</span><span class="s8">&lt;</span><span class="s13">5</span><span class="s8">;</span><span class="s1"> i</span><span class="s8">++)</span><span class="s1"> clouds</span><span class="s8">.</span><span class="s1">push</span><span class="s8">({</span><span class="s1"> x</span><span class="s8">:</span><span class="s1"> </span><span class="s12">Math</span><span class="s8">.</span><span class="s1">random</span><span class="s8">()*</span><span class="s1">canvas</span><span class="s8">.</span><span class="s1">width</span><span class="s8">,</span><span class="s1"> y</span><span class="s8">:</span><span class="s1"> </span><span class="s12">Math</span><span class="s8">.</span><span class="s1">random</span><span class="s8">()*</span><span class="s1">canvas</span><span class="s8">.</span><span class="s1">height</span><span class="s8">*</span><span class="s13">0.5</span><span class="s8">,</span><span class="s1"> r</span><span class="s8">:</span><span class="s1"> </span><span class="s13">150</span><span class="s8">+</span><span class="s12">Math</span><span class="s8">.</span><span class="s1">random</span><span class="s8">()*</span><span class="s13">200</span><span class="s8">,</span><span class="s1"> v</span><span class="s8">:</span><span class="s1"> </span><span class="s13">0.1</span><span class="s8">+</span><span class="s12">Math</span><span class="s8">.</span><span class="s1">random</span><span class="s8">()*</span><span class="s13">0.2</span><span class="s8">,</span><span class="s1"> o</span><span class="s8">:</span><span class="s1"> </span><span class="s13">0.1</span><span class="s8">+</span><span class="s12">Math</span><span class="s8">.</span><span class="s1">random</span><span class="s8">()*</span><span class="s13">0.15</span><span class="s1"> </span><span class="s8">});</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>animate</span><span class="s8">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">function</span><span class="s1"> resize</span><span class="s8">()</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> canvas</span><span class="s8">.</span><span class="s1">width </span><span class="s8">=</span><span class="s1"> window</span><span class="s8">.</span><span class="s1">innerWidth</span><span class="s8">;</span><span class="s1"> canvas</span><span class="s8">.</span><span class="s1">height </span><span class="s8">=</span><span class="s1"> window</span><span class="s8">.</span><span class="s1">innerHeight</span><span class="s8">;</span><span class="s1"> </span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">function</span><span class="s1"> animate</span><span class="s8">()</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>ctx</span><span class="s8">.</span><span class="s1">clearRect</span><span class="s8">(</span><span class="s13">0</span><span class="s8">,</span><span class="s13">0</span><span class="s8">,</span><span class="s1">canvas</span><span class="s8">.</span><span class="s1">width</span><span class="s8">,</span><span class="s1">canvas</span><span class="s8">.</span><span class="s1">height</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>clouds</span><span class="s8">.</span><span class="s1">forEach</span><span class="s8">(</span><span class="s1">c </span><span class="s8">=&gt;</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>c</span><span class="s8">.</span><span class="s1">x </span><span class="s8">+=</span><span class="s1"> c</span><span class="s8">.</span><span class="s1">v</span><span class="s8">;</span><span class="s1"> </span><span class="s7">if</span><span class="s8">(</span><span class="s1">c</span><span class="s8">.</span><span class="s1">x</span><span class="s8">-</span><span class="s1">c</span><span class="s8">.</span><span class="s1">r </span><span class="s8">&gt;</span><span class="s1"> canvas</span><span class="s8">.</span><span class="s1">width</span><span class="s8">)</span><span class="s1"> c</span><span class="s8">.</span><span class="s1">x </span><span class="s8">=</span><span class="s1"> </span><span class="s8">-</span><span class="s1">c</span><span class="s8">.</span><span class="s1">r</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">const</span><span class="s1"> g </span><span class="s8">=</span><span class="s1"> ctx</span><span class="s8">.</span><span class="s1">createRadialGradient</span><span class="s8">(</span><span class="s1">c</span><span class="s8">.</span><span class="s1">x</span><span class="s8">,</span><span class="s1"> c</span><span class="s8">.</span><span class="s1">y</span><span class="s8">,</span><span class="s1"> </span><span class="s13">0</span><span class="s8">,</span><span class="s1"> c</span><span class="s8">.</span><span class="s1">x</span><span class="s8">,</span><span class="s1"> c</span><span class="s8">.</span><span class="s1">y</span><span class="s8">,</span><span class="s1"> c</span><span class="s8">.</span><span class="s1">r</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>g</span><span class="s8">.</span><span class="s1">addColorStop</span><span class="s8">(</span><span class="s13">0</span><span class="s8">,</span><span class="s1"> </span><span class="s11">`rgba(255,255,255,</span><span class="s8">${</span><span class="s1">c</span><span class="s8">.</span><span class="s1">o</span><span class="s8">}</span><span class="s11">)`</span><span class="s8">);</span><span class="s1"> g</span><span class="s8">.</span><span class="s1">addColorStop</span><span class="s8">(</span><span class="s13">1</span><span class="s8">,</span><span class="s1"> </span><span class="s11">'rgba(255,255,255,0)'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>ctx</span><span class="s8">.</span><span class="s1">fillStyle </span><span class="s8">=</span><span class="s1"> g</span><span class="s8">;</span><span class="s1"> ctx</span><span class="s8">.</span><span class="s1">beginPath</span><span class="s8">();</span><span class="s1"> ctx</span><span class="s8">.</span><span class="s1">arc</span><span class="s8">(</span><span class="s1">c</span><span class="s8">.</span><span class="s1">x</span><span class="s8">,</span><span class="s1"> c</span><span class="s8">.</span><span class="s1">y</span><span class="s8">,</span><span class="s1"> c</span><span class="s8">.</span><span class="s1">r</span><span class="s8">,</span><span class="s1"> </span><span class="s13">0</span><span class="s8">,</span><span class="s1"> </span><span class="s12">Math</span><span class="s8">.</span><span class="s12">PI</span><span class="s8">*</span><span class="s13">2</span><span class="s8">);</span><span class="s1"> ctx</span><span class="s8">.</span><span class="s1">fill</span><span class="s8">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">});</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>requestAnimationFrame</span><span class="s8">(</span><span class="s1">animate</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">function</span><span class="s1"> updateAge</span><span class="s8">()</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> b </span><span class="s8">=</span><span class="s1"> </span><span class="s7">new</span><span class="s1"> </span><span class="s12">Date</span><span class="s8">(</span><span class="s12">BIRTH</span><span class="s8">);</span><span class="s1"> </span><span class="s7">const</span><span class="s1"> n </span><span class="s8">=</span><span class="s1"> </span><span class="s7">new</span><span class="s1"> </span><span class="s12">Date</span><span class="s8">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">let</span><span class="s1"> y </span><span class="s8">=</span><span class="s1"> n</span><span class="s8">.</span><span class="s1">getFullYear</span><span class="s8">()</span><span class="s1"> </span><span class="s8">-</span><span class="s1"> b</span><span class="s8">.</span><span class="s1">getFullYear</span><span class="s8">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">let</span><span class="s1"> m </span><span class="s8">=</span><span class="s1"> n</span><span class="s8">.</span><span class="s1">getMonth</span><span class="s8">()</span><span class="s1"> </span><span class="s8">-</span><span class="s1"> b</span><span class="s8">.</span><span class="s1">getMonth</span><span class="s8">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">if</span><span class="s1"> </span><span class="s8">(</span><span class="s1">m </span><span class="s8">&lt;</span><span class="s1"> </span><span class="s13">0</span><span class="s1"> </span><span class="s8">||</span><span class="s1"> </span><span class="s8">(</span><span class="s1">m </span><span class="s8">===</span><span class="s1"> </span><span class="s13">0</span><span class="s1"> </span><span class="s8">&amp;&amp;</span><span class="s1"> n</span><span class="s8">.</span><span class="s1">getDate</span><span class="s8">()</span><span class="s1"> </span><span class="s8">&lt;</span><span class="s1"> b</span><span class="s8">.</span><span class="s1">getDate</span><span class="s8">()))</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> y</span><span class="s8">--;</span><span class="s1"> m </span><span class="s8">+=</span><span class="s1"> </span><span class="s13">12</span><span class="s8">;</span><span class="s1"> </span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> decl </span><span class="s8">=</span><span class="s1"> </span><span class="s8">(</span><span class="s1">v</span><span class="s8">,</span><span class="s1"> arr</span><span class="s8">)</span><span class="s1"> </span><span class="s8">=&gt;</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> </span><span class="s7">const</span><span class="s1"> c </span><span class="s8">=</span><span class="s1"> </span><span class="s8">[</span><span class="s13">2</span><span class="s8">,</span><span class="s1"> </span><span class="s13">0</span><span class="s8">,</span><span class="s1"> </span><span class="s13">1</span><span class="s8">,</span><span class="s1"> </span><span class="s13">1</span><span class="s8">,</span><span class="s1"> </span><span class="s13">1</span><span class="s8">,</span><span class="s1"> </span><span class="s13">2</span><span class="s8">];</span><span class="s1"> </span><span class="s7">return</span><span class="s1"> v </span><span class="s8">+</span><span class="s1"> </span><span class="s11">" "</span><span class="s1"> </span><span class="s8">+</span><span class="s1"> arr</span><span class="s8">[(</span><span class="s1">v</span><span class="s8">%</span><span class="s13">100</span><span class="s8">&gt;</span><span class="s13">4</span><span class="s1"> </span><span class="s8">&amp;&amp;</span><span class="s1"> v</span><span class="s8">%</span><span class="s13">100</span><span class="s8">&lt;</span><span class="s13">20</span><span class="s8">)?</span><span class="s13">2</span><span class="s8">:</span><span class="s1">c</span><span class="s8">[(</span><span class="s1">v</span><span class="s8">%</span><span class="s13">10</span><span class="s8">&lt;</span><span class="s13">5</span><span class="s8">)?</span><span class="s1">v</span><span class="s8">%</span><span class="s13">10</span><span class="s8">:</span><span class="s13">5</span><span class="s8">]];</span><span class="s1"> </span><span class="s8">};</span></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">            </span>currentAge </span><span class="s8">=</span><span class="s4"> </span><span class="s1">`</span><span class="s8">${</span><span class="s4">decl</span><span class="s8">(</span><span class="s4">y</span><span class="s8">,</span><span class="s4"> </span><span class="s8">[</span><span class="s1">"год"</span><span class="s8">,</span><span class="s1">"года"</span><span class="s8">,</span><span class="s1">"лет"</span><span class="s8">])}</span><span class="s1"> </span><span class="s8">${</span><span class="s4">decl</span><span class="s8">(</span><span class="s4">m</span><span class="s8">,</span><span class="s4"> </span><span class="s8">[</span><span class="s1">"месяц"</span><span class="s8">,</span><span class="s1">"месяца"</span><span class="s8">,</span><span class="s1">"месяцев"</span><span class="s8">])}</span><span class="s1">`</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s11">'age-label'</span><span class="s8">).</span><span class="s1">innerText </span><span class="s8">=</span><span class="s1"> currentAge</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>document</span><span class="s8">.</span><span class="s1">querySelectorAll</span><span class="s8">(</span><span class="s11">'.d-age'</span><span class="s8">).</span><span class="s1">forEach</span><span class="s8">(</span><span class="s1">e </span><span class="s8">=&gt;</span><span class="s1"> e</span><span class="s8">.</span><span class="s1">innerText </span><span class="s8">=</span><span class="s1"> currentAge</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">async</span><span class="s1"> </span><span class="s7">function</span><span class="s1"> callAI</span><span class="s8">(</span><span class="s1">messages</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">try</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s7">const</span><span class="s4"> response </span><span class="s8">=</span><span class="s4"> </span><span class="s7">await</span><span class="s4"> fetch</span><span class="s8">(</span><span class="s1">"https://api.groq.com/openai/v1/chat/completions"</span><span class="s8">,</span><span class="s4"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span>method</span><span class="s8">:</span><span class="s1"> </span><span class="s11">"POST"</span><span class="s8">,</span></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">                    </span>headers</span><span class="s8">:</span><span class="s4"> </span><span class="s8">{</span><span class="s4"> </span><span class="s1">"Authorization"</span><span class="s8">:</span><span class="s4"> </span><span class="s1">`Bearer </span><span class="s8">${</span><span class="s12">GROQ_KEY</span><span class="s8">}</span><span class="s1">`</span><span class="s8">,</span><span class="s4"> </span><span class="s1">"Content-Type"</span><span class="s8">:</span><span class="s4"> </span><span class="s1">"application/json"</span><span class="s4"> </span><span class="s8">},</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span>body</span><span class="s8">:</span><span class="s1"> </span><span class="s12">JSON</span><span class="s8">.</span><span class="s1">stringify</span><span class="s8">({</span><span class="s1"> model</span><span class="s8">:</span><span class="s1"> </span><span class="s11">"llama-3.3-70b-versatile"</span><span class="s8">,</span><span class="s1"> messages</span><span class="s8">:</span><span class="s1"> messages</span><span class="s8">,</span><span class="s1"> temperature</span><span class="s8">:</span><span class="s1"> </span><span class="s13">0.6</span><span class="s8">,</span><span class="s1"> max_tokens</span><span class="s8">:</span><span class="s1"> </span><span class="s13">1024</span><span class="s1"> </span><span class="s8">})</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">});</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">const</span><span class="s1"> data </span><span class="s8">=</span><span class="s1"> </span><span class="s7">await</span><span class="s1"> response</span><span class="s8">.</span><span class="s1">json</span><span class="s8">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">return</span><span class="s1"> data</span><span class="s8">.</span><span class="s1">choices</span><span class="s8">[</span><span class="s13">0</span><span class="s8">].</span><span class="s1">message</span><span class="s8">.</span><span class="s1">content</span><span class="s8">;</span></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s8">}</span><span class="s4"> </span><span class="s7">catch</span><span class="s4"> </span><span class="s8">(</span><span class="s4">e</span><span class="s8">)</span><span class="s4"> </span><span class="s8">{</span><span class="s4"> </span><span class="s7">return</span><span class="s4"> </span><span class="s1">"Ошибка ИИ. Проверьте соединение."</span><span class="s8">;</span><span class="s4"> </span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">async</span><span class="s1"> </span><span class="s7">function</span><span class="s1"> getAdvice</span><span class="s8">()</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> el </span><span class="s8">=</span><span class="s1"> document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s11">'ai-advice'</span><span class="s8">);</span></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">            </span>el</span><span class="s8">.</span><span class="s4">innerHTML </span><span class="s8">=</span><span class="s4"> </span><span class="s1">`&lt;div class="dots py-4"&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;`</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> city </span><span class="s8">=</span><span class="s1"> document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s11">'city-label'</span><span class="s8">).</span><span class="s1">innerText</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> temp </span><span class="s8">=</span><span class="s1"> </span><span class="s12">Math</span><span class="s8">.</span><span class="s1">round</span><span class="s8">(</span><span class="s1">weatherData</span><span class="s8">.</span><span class="s1">current</span><span class="s8">.</span><span class="s1">temperature_2m</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> status </span><span class="s8">=</span><span class="s1"> getCond</span><span class="s8">(</span><span class="s1">weatherData</span><span class="s8">.</span><span class="s1">current</span><span class="s8">.</span><span class="s1">weather_code</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> messages </span><span class="s8">=</span><span class="s1"> </span><span class="s8">[</span></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s8">{</span><span class="s4"> role</span><span class="s8">:</span><span class="s4"> </span><span class="s1">"system"</span><span class="s8">,</span><span class="s4"> content</span><span class="s8">:</span><span class="s4"> </span><span class="s1">`Ты — эксперт по детскому гардеробу. Малышка Дарья, ей сейчас </span><span class="s8">${</span><span class="s4">currentAge</span><span class="s8">}</span><span class="s1"> (род. 15.10.2024). Она активно ходит. Отвечай КРАТКО (3-5 предложений), но емко. Разбор по пунктам (&lt;b&gt;Слои&lt;/b&gt;, &lt;b&gt;Голова&lt;/b&gt;, &lt;b&gt;Обувь&lt;/b&gt;). Используй теги &lt;b&gt;.`</span><span class="s4"> </span><span class="s8">},</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">{</span><span class="s1"> role</span><span class="s8">:</span><span class="s1"> </span><span class="s11">"user"</span><span class="s8">,</span><span class="s1"> content</span><span class="s8">:</span><span class="s1"> </span><span class="s11">`Погода в </span><span class="s8">${</span><span class="s1">city</span><span class="s8">}</span><span class="s11">: </span><span class="s8">${</span><span class="s1">temp</span><span class="s8">}</span><span class="s11">°C, </span><span class="s8">${</span><span class="s1">status</span><span class="s8">}</span><span class="s11">, ветер </span><span class="s8">${</span><span class="s12">Math</span><span class="s8">.</span><span class="s1">round</span><span class="s8">(</span><span class="s1">weatherData</span><span class="s8">.</span><span class="s1">current</span><span class="s8">.</span><span class="s1">wind_speed_10m</span><span class="s8">)}</span><span class="s11"> м/с. Что надеть Дарье?`</span><span class="s1"> </span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">];</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> text </span><span class="s8">=</span><span class="s1"> </span><span class="s7">await</span><span class="s1"> callAI</span><span class="s8">(</span><span class="s1">messages</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>el</span><span class="s8">.</span><span class="s1">innerHTML </span><span class="s8">=</span><span class="s1"> text</span><span class="s8">.</span><span class="s1">replace</span><span class="s8">(</span><span class="s14">/\n/</span><span class="s7">g</span><span class="s8">,</span><span class="s1"> </span><span class="s11">'&lt;br&gt;'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">async</span><span class="s1"> </span><span class="s7">function</span><span class="s1"> fetchWeather</span><span class="s8">(</span><span class="s1">lat</span><span class="s8">,</span><span class="s1"> lon</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s11">'card-loader'</span><span class="s8">).</span><span class="s1">classList</span><span class="s8">.</span><span class="s1">remove</span><span class="s8">(</span><span class="s11">'hidden'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">try</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s7">const</span><span class="s4"> res </span><span class="s8">=</span><span class="s4"> </span><span class="s7">await</span><span class="s4"> fetch</span><span class="s8">(</span><span class="s1">`https://api.open-meteo.com/v1/forecast?latitude=</span><span class="s8">${</span><span class="s4">lat</span><span class="s8">}</span><span class="s1">&amp;longitude=</span><span class="s8">${</span><span class="s4">lon</span><span class="s8">}</span><span class="s1">&amp;current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,precipitation,is_day&amp;hourly=temperature_2m,weather_code&amp;timezone=auto&amp;forecast_days=1`</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>weatherData </span><span class="s8">=</span><span class="s1"> </span><span class="s7">await</span><span class="s1"> res</span><span class="s8">.</span><span class="s1">json</span><span class="s8">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>renderUI</span><span class="s8">();</span><span class="s1"> getAdvice</span><span class="s8">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">}</span><span class="s1"> </span><span class="s7">catch</span><span class="s8">(</span><span class="s1">e</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s11">'card-loader'</span><span class="s8">).</span><span class="s1">classList</span><span class="s8">.</span><span class="s1">add</span><span class="s8">(</span><span class="s11">'hidden'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">function</span><span class="s1"> renderUI</span><span class="s8">()</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> c </span><span class="s8">=</span><span class="s1"> weatherData</span><span class="s8">.</span><span class="s1">current</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s11">'temp-val'</span><span class="s8">).</span><span class="s1">innerText </span><span class="s8">=</span><span class="s1"> </span><span class="s11">`</span><span class="s8">${</span><span class="s12">Math</span><span class="s8">.</span><span class="s1">round</span><span class="s8">(</span><span class="s1">c</span><span class="s8">.</span><span class="s1">temperature_2m</span><span class="s8">)}</span><span class="s11">°`</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s11">'condition-label'</span><span class="s8">).</span><span class="s1">innerText </span><span class="s8">=</span><span class="s1"> getCond</span><span class="s8">(</span><span class="s1">c</span><span class="s8">.</span><span class="s1">weather_code</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s11">'hum-val'</span><span class="s8">).</span><span class="s1">innerText </span><span class="s8">=</span><span class="s1"> </span><span class="s11">`</span><span class="s8">${</span><span class="s1">c</span><span class="s8">.</span><span class="s1">relative_humidity_2m</span><span class="s8">}</span><span class="s11">%`</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s11">'wind-val'</span><span class="s8">).</span><span class="s1">innerText </span><span class="s8">=</span><span class="s1"> </span><span class="s11">`</span><span class="s8">${</span><span class="s12">Math</span><span class="s8">.</span><span class="s1">round</span><span class="s8">(</span><span class="s1">c</span><span class="s8">.</span><span class="s1">wind_speed_10m</span><span class="s8">)}</span><span class="s11">`</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s11">'rain-val'</span><span class="s8">).</span><span class="s1">innerText </span><span class="s8">=</span><span class="s1"> </span><span class="s11">`</span><span class="s8">${</span><span class="s1">c</span><span class="s8">.</span><span class="s1">precipitation </span><span class="s8">||</span><span class="s1"> </span><span class="s13">0</span><span class="s8">}</span><span class="s11">%`</span><span class="s8">;</span></p>
-<p class="p6"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> mainIcon </span><span class="s8">=</span><span class="s1"> document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s11">'main-icon'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> iData </span><span class="s8">=</span><span class="s1"> getIcon</span><span class="s8">(</span><span class="s1">c</span><span class="s8">.</span><span class="s1">weather_code</span><span class="s8">,</span><span class="s1"> c</span><span class="s8">.</span><span class="s1">is_day</span><span class="s8">);</span></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">            </span>mainIcon</span><span class="s8">.</span><span class="s4">className </span><span class="s8">=</span><span class="s4"> </span><span class="s1">`fas </span><span class="s8">${</span><span class="s4">iData</span><span class="s8">.</span><span class="s4">icon</span><span class="s8">}</span><span class="s1"> text-7xl transition-all duration-1000`</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>mainIcon</span><span class="s8">.</span><span class="s1">style</span><span class="s8">.</span><span class="s1">color </span><span class="s8">=</span><span class="s1"> c</span><span class="s8">.</span><span class="s1">weather_code </span><span class="s8">&lt;=</span><span class="s1"> </span><span class="s13">2</span><span class="s1"> </span><span class="s8">?</span><span class="s1"> </span><span class="s8">(</span><span class="s1">c</span><span class="s8">.</span><span class="s1">is_day</span><span class="s8">?</span><span class="s11">'#fbbf24'</span><span class="s8">:</span><span class="s11">'#FFF'</span><span class="s8">)</span><span class="s1"> </span><span class="s8">:</span><span class="s1"> </span><span class="s11">'#cbd5e1'</span><span class="s8">;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> list </span><span class="s8">=</span><span class="s1"> document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s11">'hourly-list'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>list</span><span class="s8">.</span><span class="s1">innerHTML </span><span class="s8">=</span><span class="s1"> </span><span class="s11">''</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> now </span><span class="s8">=</span><span class="s1"> </span><span class="s7">new</span><span class="s1"> </span><span class="s12">Date</span><span class="s8">().</span><span class="s1">getHours</span><span class="s8">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">for</span><span class="s8">(</span><span class="s7">let</span><span class="s1"> i</span><span class="s8">=</span><span class="s1">now</span><span class="s8">;</span><span class="s1"> i</span><span class="s8">&lt;</span><span class="s1">now</span><span class="s8">+</span><span class="s13">10</span><span class="s8">;</span><span class="s1"> i</span><span class="s8">++)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">const</span><span class="s1"> idx </span><span class="s8">=</span><span class="s1"> i</span><span class="s8">%</span><span class="s13">24</span><span class="s8">;</span><span class="s1"> </span><span class="s7">const</span><span class="s1"> temp </span><span class="s8">=</span><span class="s1"> </span><span class="s12">Math</span><span class="s8">.</span><span class="s1">round</span><span class="s8">(</span><span class="s1">weatherData</span><span class="s8">.</span><span class="s1">hourly</span><span class="s8">.</span><span class="s1">temperature_2m</span><span class="s8">[</span><span class="s1">idx</span><span class="s8">]);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">const</span><span class="s1"> code </span><span class="s8">=</span><span class="s1"> weatherData</span><span class="s8">.</span><span class="s1">hourly</span><span class="s8">.</span><span class="s1">weather_code</span><span class="s8">[</span><span class="s1">idx</span><span class="s8">];</span><span class="s1"> </span><span class="s7">const</span><span class="s1"> isD </span><span class="s8">=</span><span class="s1"> idx</span><span class="s8">&gt;</span><span class="s13">6</span><span class="s1"> </span><span class="s8">&amp;&amp;</span><span class="s1"> idx</span><span class="s8">&lt;</span><span class="s13">21</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">const</span><span class="s1"> icon </span><span class="s8">=</span><span class="s1"> getIcon</span><span class="s8">(</span><span class="s1">code</span><span class="s8">,</span><span class="s1"> isD</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>list</span><span class="s8">.</span><span class="s1">innerHTML </span><span class="s8">+=</span><span class="s1"> </span><span class="s11">`&lt;div class="hour-pill </span><span class="s8">${</span><span class="s1">i</span><span class="s8">===</span><span class="s1">now</span><span class="s8">?</span><span class="s11">'active'</span><span class="s8">:</span><span class="s11">''</span><span class="s8">}</span><span class="s11">"&gt;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;span class="text-[10px] font-black uppercase opacity-60"&gt;</span><span class="s8">${</span><span class="s4">idx</span><span class="s8">}</span><span class="s1">:00&lt;/span&gt;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;i class="fas </span><span class="s8">${</span><span class="s4">icon</span><span class="s8">.</span><span class="s4">icon</span><span class="s8">}</span><span class="s1"> text-2xl"&gt;&lt;/i&gt;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;span class="text-[15px] font-extrabold"&gt;</span><span class="s8">${</span><span class="s4">temp</span><span class="s8">}</span><span class="s1">°&lt;/span&gt;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;`</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">function</span><span class="s1"> getCond</span><span class="s8">(</span><span class="s1">c</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s4"> m </span><span class="s8">=</span><span class="s4"> </span><span class="s8">{</span><span class="s13">0</span><span class="s8">:</span><span class="s1">'Ясно'</span><span class="s8">,</span><span class="s13">1</span><span class="s8">:</span><span class="s1">'Ясно'</span><span class="s8">,</span><span class="s13">2</span><span class="s8">:</span><span class="s1">'Облачно'</span><span class="s8">,</span><span class="s13">3</span><span class="s8">:</span><span class="s1">'Пасмурно'</span><span class="s8">,</span><span class="s13">45</span><span class="s8">:</span><span class="s1">'Туман'</span><span class="s8">,</span><span class="s13">61</span><span class="s8">:</span><span class="s1">'Дождь'</span><span class="s8">,</span><span class="s13">71</span><span class="s8">:</span><span class="s1">'Снег'</span><span class="s8">,</span><span class="s13">95</span><span class="s8">:</span><span class="s1">'Гроза'</span><span class="s8">};</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">return</span><span class="s1"> m</span><span class="s8">[</span><span class="s1">c</span><span class="s8">]</span><span class="s1"> </span><span class="s8">||</span><span class="s1"> </span><span class="s11">'Облачно'</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">function</span><span class="s1"> getIcon</span><span class="s8">(</span><span class="s1">c</span><span class="s8">,</span><span class="s1"> d</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">if</span><span class="s8">(</span><span class="s1">c</span><span class="s8">===</span><span class="s13">0</span><span class="s8">)</span><span class="s1"> </span><span class="s7">return</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> icon</span><span class="s8">:</span><span class="s1"> d</span><span class="s8">?</span><span class="s11">'fa-sun'</span><span class="s8">:</span><span class="s11">'fa-moon'</span><span class="s1"> </span><span class="s8">};</span></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s7">if</span><span class="s8">(</span><span class="s4">c</span><span class="s8">&lt;=</span><span class="s13">2</span><span class="s8">)</span><span class="s4"> </span><span class="s7">return</span><span class="s4"> </span><span class="s8">{</span><span class="s4"> icon</span><span class="s8">:</span><span class="s4"> d</span><span class="s8">?</span><span class="s1">'fa-cloud-sun'</span><span class="s8">:</span><span class="s1">'fa-cloud-moon'</span><span class="s4"> </span><span class="s8">};</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">if</span><span class="s8">(</span><span class="s1">c</span><span class="s8">===</span><span class="s13">3</span><span class="s8">)</span><span class="s1"> </span><span class="s7">return</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> icon</span><span class="s8">:</span><span class="s1"> </span><span class="s11">'fa-cloud'</span><span class="s1"> </span><span class="s8">};</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">if</span><span class="s8">(</span><span class="s1">c</span><span class="s8">&gt;=</span><span class="s13">61</span><span class="s1"> </span><span class="s8">&amp;&amp;</span><span class="s1"> c</span><span class="s8">&lt;=</span><span class="s13">67</span><span class="s8">)</span><span class="s1"> </span><span class="s7">return</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> icon</span><span class="s8">:</span><span class="s1"> </span><span class="s11">'fa-cloud-rain'</span><span class="s1"> </span><span class="s8">};</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">if</span><span class="s8">(</span><span class="s1">c</span><span class="s8">&gt;=</span><span class="s13">71</span><span class="s1"> </span><span class="s8">&amp;&amp;</span><span class="s1"> c</span><span class="s8">&lt;=</span><span class="s13">77</span><span class="s8">)</span><span class="s1"> </span><span class="s7">return</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> icon</span><span class="s8">:</span><span class="s1"> </span><span class="s11">'fa-snowflake'</span><span class="s1"> </span><span class="s8">};</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">return</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> icon</span><span class="s8">:</span><span class="s1"> </span><span class="s11">'fa-cloud'</span><span class="s1"> </span><span class="s8">};</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">function</span><span class="s1"> changeLoc</span><span class="s8">(</span><span class="s1">key</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s11">'btn-moscow'</span><span class="s8">).</span><span class="s1">classList</span><span class="s8">.</span><span class="s1">toggle</span><span class="s8">(</span><span class="s11">'active'</span><span class="s8">,</span><span class="s1"> key</span><span class="s8">===</span><span class="s11">'moscow'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s11">'btn-adler'</span><span class="s8">).</span><span class="s1">classList</span><span class="s8">.</span><span class="s1">toggle</span><span class="s8">(</span><span class="s11">'active'</span><span class="s8">,</span><span class="s1"> key</span><span class="s8">===</span><span class="s11">'adler'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s11">'btn-gps'</span><span class="s8">).</span><span class="s1">classList</span><span class="s8">.</span><span class="s1">remove</span><span class="s8">(</span><span class="s11">'active'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s11">'city-label'</span><span class="s8">).</span><span class="s1">innerText </span><span class="s8">=</span><span class="s1"> </span><span class="s12">CITIES</span><span class="s8">[</span><span class="s1">key</span><span class="s8">].</span><span class="s1">name</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>fetchWeather</span><span class="s8">(</span><span class="s12">CITIES</span><span class="s8">[</span><span class="s1">key</span><span class="s8">].</span><span class="s1">lat</span><span class="s8">,</span><span class="s1"> </span><span class="s12">CITIES</span><span class="s8">[</span><span class="s1">key</span><span class="s8">].</span><span class="s1">lon</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">function</span><span class="s1"> getGPS</span><span class="s8">()</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">if</span><span class="s8">(!</span><span class="s1">navigator</span><span class="s8">.</span><span class="s1">geolocation</span><span class="s8">)</span><span class="s1"> </span><span class="s7">return</span><span class="s1"> alert</span><span class="s8">(</span><span class="s11">"GPS не поддерживается"</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>navigator</span><span class="s8">.</span><span class="s1">geolocation</span><span class="s8">.</span><span class="s1">getCurrentPosition</span><span class="s8">(</span><span class="s1">p </span><span class="s8">=&gt;</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s11">'city-label'</span><span class="s8">).</span><span class="s1">innerText </span><span class="s8">=</span><span class="s1"> </span><span class="s11">"Моя локация"</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>fetchWeather</span><span class="s8">(</span><span class="s1">p</span><span class="s8">.</span><span class="s1">coords</span><span class="s8">.</span><span class="s1">latitude</span><span class="s8">,</span><span class="s1"> p</span><span class="s8">.</span><span class="s1">coords</span><span class="s8">.</span><span class="s1">longitude</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">});</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">function</span><span class="s1"> toggleChat</span><span class="s8">(</span><span class="s1">s</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s11">'chat-modal'</span><span class="s8">).</span><span class="s1">style</span><span class="s8">.</span><span class="s1">display </span><span class="s8">=</span><span class="s1"> s</span><span class="s8">?</span><span class="s11">'flex'</span><span class="s8">:</span><span class="s11">'none'</span><span class="s8">;</span><span class="s1"> </span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">async</span><span class="s1"> </span><span class="s7">function</span><span class="s1"> sendChat</span><span class="s8">()</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> input </span><span class="s8">=</span><span class="s1"> document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s11">'chat-input'</span><span class="s8">);</span><span class="s1"> </span><span class="s7">if</span><span class="s8">(!</span><span class="s1">input</span><span class="s8">.</span><span class="s1">value</span><span class="s8">)</span><span class="s1"> </span><span class="s7">return</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> text </span><span class="s8">=</span><span class="s1"> input</span><span class="s8">.</span><span class="s1">value</span><span class="s8">;</span><span class="s1"> </span><span class="s7">const</span><span class="s1"> hist </span><span class="s8">=</span><span class="s1"> document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s11">'chat-history'</span><span class="s8">);</span></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">            </span>hist</span><span class="s8">.</span><span class="s4">innerHTML </span><span class="s8">+=</span><span class="s4"> </span><span class="s1">`&lt;div class="text-right ml-10 mb-4"&gt;&lt;div class="bg-gray-100 p-5 rounded-[30px] rounded-tr-none inline-block shadow-sm"&gt;</span><span class="s8">${</span><span class="s4">text</span><span class="s8">}</span><span class="s1">&lt;/div&gt;&lt;/div&gt;`</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>input</span><span class="s8">.</span><span class="s1">value </span><span class="s8">=</span><span class="s1"> </span><span class="s11">''</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> msgs </span><span class="s8">=</span><span class="s1"> </span><span class="s8">[{</span><span class="s1"> role</span><span class="s8">:</span><span class="s1"> </span><span class="s11">"system"</span><span class="s8">,</span><span class="s1"> content</span><span class="s8">:</span><span class="s1"> </span><span class="s11">`Ответь кратко о Дарье (</span><span class="s8">${</span><span class="s1">currentAge</span><span class="s8">}</span><span class="s11">).`</span><span class="s1"> </span><span class="s8">},</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> role</span><span class="s8">:</span><span class="s1"> </span><span class="s11">"user"</span><span class="s8">,</span><span class="s1"> content</span><span class="s8">:</span><span class="s1"> text </span><span class="s8">}];</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> resp </span><span class="s8">=</span><span class="s1"> </span><span class="s7">await</span><span class="s1"> callAI</span><span class="s8">(</span><span class="s1">msgs</span><span class="s8">);</span></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">            </span>hist</span><span class="s8">.</span><span class="s4">innerHTML </span><span class="s8">+=</span><span class="s4"> </span><span class="s1">`&lt;div class="mr-10 mb-4"&gt;&lt;div class="bg-indigo-50 p-6 rounded-[35px] rounded-tl-none border border-indigo-100 shadow-sm"&gt;</span><span class="s8">${</span><span class="s4">resp</span><span class="s8">.</span><span class="s4">replace</span><span class="s8">(</span><span class="s14">/\n/</span><span class="s7">g</span><span class="s8">,</span><span class="s4"> </span><span class="s1">'&lt;br&gt;'</span><span class="s8">)}</span><span class="s1">&lt;/div&gt;&lt;/div&gt;`</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>hist</span><span class="s8">.</span><span class="s1">scrollTop </span><span class="s8">=</span><span class="s1"> hist</span><span class="s8">.</span><span class="s1">scrollHeight</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span>window</span><span class="s8">.</span><span class="s1">onload </span><span class="s8">=</span><span class="s1"> </span><span class="s8">()</span><span class="s1"> </span><span class="s8">=&gt;</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>updateAge</span><span class="s8">();</span><span class="s1"> initClouds</span><span class="s8">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> opt </span><span class="s8">=</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> weekday</span><span class="s8">:</span><span class="s1"> </span><span class="s11">'long'</span><span class="s8">,</span><span class="s1"> day</span><span class="s8">:</span><span class="s1"> </span><span class="s11">'numeric'</span><span class="s8">,</span><span class="s1"> month</span><span class="s8">:</span><span class="s1"> </span><span class="s11">'long'</span><span class="s1"> </span><span class="s8">};</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s11">'date-label'</span><span class="s8">).</span><span class="s1">innerText </span><span class="s8">=</span><span class="s1"> </span><span class="s7">new</span><span class="s1"> </span><span class="s12">Date</span><span class="s8">().</span><span class="s1">toLocaleDateString</span><span class="s8">(</span><span class="s11">'ru-RU'</span><span class="s8">,</span><span class="s1"> opt</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>changeLoc</span><span class="s8">(</span><span class="s11">'moscow'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">};</span></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s1">script</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">body</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">html</span><span class="s3">&gt;</span></p>
+<body class="pt-safe">
+
+    <canvas id="weather-canvas"></canvas>
+
+    <div class="max-w-md mx-auto px-7 pb-12 relative z-10">
+        
+        <div class="flex flex-col items-center mt-6 mb-8">
+            <div class="flex items-center gap-2 mb-1">
+                <i class="fas fa-location-dot text-[#628EFF] text-xl"></i>
+                <span id="city-label" class="text-2xl font-extrabold tracking-tight text-[#313945]">Москва</span>
+            </div>
+            <span id="date-label" class="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Сегодня</span>
+        </div>
+
+        <div class="mb-10">
+            <div class="nav-pills">
+                <button onclick="changeLoc('moscow')" id="btn-moscow" class="active">Москва</button>
+                <button onclick="changeLoc('adler')" id="btn-adler">Адлер</button>
+                <button onclick="getGPS()" id="btn-gps"><i class="fas fa-location-arrow"></i></button>
+            </div>
+        </div>
+
+        <!-- ГЛАВНАЯ КАРТОЧКА -->
+        <div class="main-weather-card flex flex-col items-center mb-10 relative">
+            <div id="card-loader" class="hidden absolute inset-0 bg-white/10 backdrop-blur-md z-50 flex items-center justify-center rounded-[45px]">
+                <i class="fas fa-circle-notch fa-spin text-white text-3xl"></i>
+            </div>
+            
+            <div class="flex w-full justify-between items-start mb-4 px-2">
+                <div id="condition-label" class="text-white/80 font-bold uppercase tracking-[0.2em] text-sm">...</div>
+                <i id="main-icon" class="fas fa-sun text-6xl text-yellow-300 drop-shadow-xl transition-all duration-700"></i>
+            </div>
+            
+            <div id="temp-val" class="text-[100px] font-extrabold leading-none mb-6 tracking-tighter" style="text-shadow: 0 10px 20px rgba(0,0,0,0.1)">--°</div>
+            
+            <div class="flex w-full justify-around mt-6 pt-8 border-t border-white/20">
+                <div class="flex flex-col items-center">
+                    <i class="fas fa-umbrella text-white/50 text-[10px] mb-2"></i>
+                    <span id="rain-val" class="text-[14px] font-black tracking-tighter">--%</span>
+                    <span class="text-[9px] font-bold uppercase opacity-60">Осадки</span>
+                </div>
+                <div class="flex flex-col items-center border-x border-white/20 px-8">
+                    <i class="fas fa-droplet text-white/50 text-[10px] mb-2"></i>
+                    <span id="hum-val" class="text-[14px] font-black tracking-tighter">--%</span>
+                    <span class="text-[9px] font-bold uppercase opacity-60">Влажн.</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <i class="fas fa-wind text-white/50 text-[10px] mb-2"></i>
+                    <span id="wind-val" class="text-[14px] font-black tracking-tighter">-- м/с</span>
+                    <span class="text-[9px] font-bold uppercase opacity-60">Ветер</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Почасовой прогноз -->
+        <div class="mb-12">
+            <div class="flex justify-between items-center mb-2 px-1">
+                <span class="text-[16px] font-extrabold text-[#313945]">Сегодня</span>
+                <a href="https://yandex.ru/pogoda/ru" target="_blank" class="text-[11px] font-bold text-[#628EFF] uppercase tracking-widest flex items-center gap-1 hover:opacity-70 active:scale-95 transition-all">
+                    ПРОГНОЗ ЯНДЕКС <i class="fas fa-chevron-right text-[8px]"></i>
+                </a>
+            </div>
+            <div class="hourly-scroll-container">
+                <div id="hourly-list">
+                    <!-- Плитки генерируются в JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- БЛОК ДАРЬИ -->
+        <div class="ai-glass-card p-8 mb-8 relative overflow-hidden transition-all hover:scale-[1.01]">
+            <div class="absolute top-[-10px] right-[-10px] opacity-5 pointer-events-none">
+                <i class="fas fa-baby-carriage text-8xl"></i>
+            </div>
+            
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-12 h-12 bg-gradient-to-br from-[#628EFF] to-[#8740FF] rounded-2xl flex items-center justify-center shadow-xl">
+                    <i class="fas fa-wand-magic-sparkles text-white text-[18px]"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-[10px] font-black uppercase tracking-[0.2em] text-[#628EFF]">Для Дарьи (<span id="age-label">...</span>)</span>
+                    <span class="text-[15px] font-extrabold text-[#313945]">Детальный разбор гардероба</span>
+                </div>
+            </div>
+            
+            <div id="ai-advice" class="ai-text font-bold">
+                <div class="dots py-4"><span></span><span></span><span></span></div>
+                <p class="text-xs text-gray-400 mt-2">Анализирую погоду для малышки...</p>
+            </div>
+            
+            <button onclick="toggleChat(true)" class="mt-8 w-full py-5 bg-white hover:bg-gray-50 transition-all rounded-[25px] text-[11px] font-black uppercase tracking-widest text-[#628EFF] border border-gray-100 shadow-sm flex items-center justify-center gap-2">
+                СПРОСИТЬ АССИСТЕНТА <i class="fas fa-arrow-right text-[9px] opacity-40"></i>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- ЧАТ МОДАЛКА -->
+    <div id="chat-modal" class="fixed inset-0 bg-black/40 backdrop-blur-2xl z-50 hidden flex-col justify-end">
+        <div class="bg-white w-full rounded-t-[50px] p-8 pb-safe shadow-2xl transition-all">
+            <div class="w-16 h-1.5 bg-gray-200 rounded-full mx-auto mb-10"></div>
+            <div id="chat-history" class="max-h-[40vh] overflow-y-auto mb-8 space-y-6 px-1 text-sm font-bold text-[#313945]">
+                <div class="bg-indigo-50 p-6 rounded-[35px] rounded-tl-none shadow-sm leading-relaxed">
+                    Привет! Я помогу подобрать гардероб для Дарьи. Ей сейчас <span class="d-age">...</span>. Что вас интересует?
+                </div>
+            </div>
+            <div class="flex gap-3 items-center">
+                <input id="chat-input" type="text" placeholder="Ваш вопрос..." class="flex-1 bg-gray-100 rounded-[25px] px-7 py-5 outline-none font-bold text-[15px]">
+                <button onclick="sendChat()" class="bg-[#628EFF] text-white w-14 h-14 rounded-2xl flex items-center justify-center shadow-xl shadow-indigo-100">
+                    <i class="fas fa-paper-plane text-lg"></i>
+                </button>
+            </div>
+            <button onclick="toggleChat(false)" class="mt-8 w-full text-center text-gray-400 font-bold text-[11px] uppercase tracking-widest">Закрыть</button>
+        </div>
+    </div>
+
+    <script>
+        const GROQ_KEY = "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";
+        const BIRTH = "2024-10-15";
+        const CITIES = {
+            moscow: { name: 'Москва', lat: 55.75, lon: 37.61 },
+            adler: { name: 'Адлер', lat: 43.43, lon: 39.91 }
+        };
+
+        let currentAge = "";
+        let weatherData = null;
+        let canvas, ctx, clouds = [];
+
+        function initClouds() {
+            canvas = document.getElementById('weather-canvas');
+            ctx = canvas.getContext('2d');
+            resize();
+            window.addEventListener('resize', resize);
+            for(let i=0; i<5; i++) clouds.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height*0.5, r: 150+Math.random()*200, v: 0.1+Math.random()*0.2, o: 0.1+Math.random()*0.15 });
+            animate();
+        }
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        function animate() {
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            clouds.forEach(c => {
+                c.x += c.v; if(c.x-c.r > canvas.width) c.x = -c.r;
+                const g = ctx.createRadialGradient(c.x, c.y, 0, c.x, c.y, c.r);
+                g.addColorStop(0, `rgba(255,255,255,${c.o})`); g.addColorStop(1, 'rgba(255,255,255,0)');
+                ctx.fillStyle = g; ctx.beginPath(); ctx.arc(c.x, c.y, c.r, 0, Math.PI*2); ctx.fill();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        function updateAge() {
+            const b = new Date(BIRTH); const n = new Date();
+            let y = n.getFullYear() - b.getFullYear();
+            let m = n.getMonth() - b.getMonth();
+            if (m < 0 || (m === 0 && n.getDate() < b.getDate())) { y--; m += 12; }
+            const decl = (v, arr) => { const c = [2, 0, 1, 1, 1, 2]; return v + " " + arr[(v%100>4 && v%100<20)?2:c[(v%10<5)?v%10:5]]; };
+            currentAge = `${decl(y, ["год","года","лет"])} ${decl(m, ["месяц","месяца","месяцев"])}`;
+            document.getElementById('age-label').innerText = currentAge;
+            document.querySelectorAll('.d-age').forEach(e => e.innerText = currentAge);
+        }
+
+        async function callAI(messages) {
+            try {
+                const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                    method: "POST",
+                    headers: { "Authorization": `Bearer ${GROQ_KEY}`, "Content-Type": "application/json" },
+                    body: JSON.stringify({ model: "llama-3.3-70b-versatile", messages: messages, temperature: 0.6, max_tokens: 1024 })
+                });
+                const data = await response.json();
+                return data.choices[0].message.content;
+            } catch (e) { return "Ошибка ИИ. Проверьте соединение."; }
+        }
+
+        async function getAdvice() {
+            const el = document.getElementById('ai-advice');
+            el.innerHTML = `<div class="dots py-4"><span></span><span></span><span></span></div>`;
+            const city = document.getElementById('city-label').innerText;
+            const temp = Math.round(weatherData.current.temperature_2m);
+            const status = getCond(weatherData.current.weather_code);
+            const messages = [
+                { role: "system", content: `Ты — эксперт по детскому гардеробу. Малышка Дарья, ей сейчас ${currentAge} (род. 15.10.2024). Она активно ходит. Отвечай КРАТКО (3-5 предложений), но емко. Разбор по пунктам (<b>Слои</b>, <b>Голова</b>, <b>Обувь</b>). Используй теги <b>.` },
+                { role: "user", content: `Погода в ${city}: ${temp}°C, ${status}, ветер ${Math.round(weatherData.current.wind_speed_10m)} м/с. Что надеть Дарье?` }
+            ];
+            const text = await callAI(messages);
+            el.innerHTML = text.replace(/\n/g, '<br>');
+        }
+
+        async function fetchWeather(lat, lon) {
+            document.getElementById('card-loader').classList.remove('hidden');
+            try {
+                const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,precipitation,is_day&hourly=temperature_2m,weather_code&timezone=auto&forecast_days=1`);
+                weatherData = await res.json();
+                renderUI(); getAdvice();
+            } catch(e) {}
+            document.getElementById('card-loader').classList.add('hidden');
+        }
+
+        function renderUI() {
+            const c = weatherData.current;
+            document.getElementById('temp-val').innerText = `${Math.round(c.temperature_2m)}°`;
+            document.getElementById('condition-label').innerText = getCond(c.weather_code);
+            document.getElementById('hum-val').innerText = `${c.relative_humidity_2m}%`;
+            document.getElementById('wind-val').innerText = `${Math.round(c.wind_speed_10m)}`;
+            document.getElementById('rain-val').innerText = `${c.precipitation || 0}%`;
+            
+            const mainIcon = document.getElementById('main-icon');
+            const iData = getIcon(c.weather_code, c.is_day);
+            mainIcon.className = `fas ${iData.icon} text-7xl transition-all duration-1000`;
+            mainIcon.style.color = c.weather_code <= 2 ? (c.is_day?'#fbbf24':'#FFF') : '#cbd5e1';
+
+            const list = document.getElementById('hourly-list');
+            list.innerHTML = '';
+            const now = new Date().getHours();
+            for(let i=now; i<now+10; i++) {
+                const idx = i%24; const temp = Math.round(weatherData.hourly.temperature_2m[idx]);
+                const code = weatherData.hourly.weather_code[idx]; const isD = idx>6 && idx<21;
+                const icon = getIcon(code, isD);
+                list.innerHTML += `<div class="hour-pill ${i===now?'active':''}">
+                    <span class="text-[10px] font-black uppercase opacity-60">${idx}:00</span>
+                    <i class="fas ${icon.icon} text-2xl"></i>
+                    <span class="text-[15px] font-extrabold">${temp}°</span>
+                </div>`;
+            }
+        }
+
+        function getCond(c) {
+            const m = {0:'Ясно',1:'Ясно',2:'Облачно',3:'Пасмурно',45:'Туман',61:'Дождь',71:'Снег',95:'Гроза'};
+            return m[c] || 'Облачно';
+        }
+        function getIcon(c, d) {
+            if(c===0) return { icon: d?'fa-sun':'fa-moon' };
+            if(c<=2) return { icon: d?'fa-cloud-sun':'fa-cloud-moon' };
+            if(c===3) return { icon: 'fa-cloud' };
+            if(c>=61 && c<=67) return { icon: 'fa-cloud-rain' };
+            if(c>=71 && c<=77) return { icon: 'fa-snowflake' };
+            return { icon: 'fa-cloud' };
+        }
+
+        function changeLoc(key) {
+            document.getElementById('btn-moscow').classList.toggle('active', key==='moscow');
+            document.getElementById('btn-adler').classList.toggle('active', key==='adler');
+            document.getElementById('btn-gps').classList.remove('active');
+            document.getElementById('city-label').innerText = CITIES[key].name;
+            fetchWeather(CITIES[key].lat, CITIES[key].lon);
+        }
+
+        function getGPS() {
+            if(!navigator.geolocation) return alert("GPS не поддерживается");
+            navigator.geolocation.getCurrentPosition(p => {
+                document.getElementById('city-label').innerText = "Моя локация";
+                fetchWeather(p.coords.latitude, p.coords.longitude);
+            });
+        }
+
+        function toggleChat(s) { document.getElementById('chat-modal').style.display = s?'flex':'none'; }
+        async function sendChat() {
+            const input = document.getElementById('chat-input'); if(!input.value) return;
+            const text = input.value; const hist = document.getElementById('chat-history');
+            hist.innerHTML += `<div class="text-right ml-10 mb-4"><div class="bg-gray-100 p-5 rounded-[30px] rounded-tr-none inline-block shadow-sm">${text}</div></div>`;
+            input.value = '';
+            const msgs = [{ role: "system", content: `Ответь кратко о Дарье (${currentAge}).` }, { role: "user", content: text }];
+            const resp = await callAI(msgs);
+            hist.innerHTML += `<div class="mr-10 mb-4"><div class="bg-indigo-50 p-6 rounded-[35px] rounded-tl-none border border-indigo-100 shadow-sm">${resp.replace(/\n/g, '<br>')}</div></div>`;
+            hist.scrollTop = hist.scrollHeight;
+        }
+
+        window.onload = () => {
+            updateAge(); initClouds();
+            const opt = { weekday: 'long', day: 'numeric', month: 'long' };
+            document.getElementById('date-label').innerText = new Date().toLocaleDateString('ru-RU', opt);
+            changeLoc('moscow');
+        };
+    </script>
 </body>
 </html>
